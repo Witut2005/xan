@@ -1,6 +1,9 @@
 
 #include <stdint.h>
 
+
+uint8_t* ram;
+
 struct GeneralPurposeRegister
 {
     struct 
@@ -23,9 +26,17 @@ class CentralProcessingUnit
 
 
     public:
+        
+        uint16_t ip;
+
         GeneralPurposeRegister registers[8];
         SegmentRegister segment_registers[4];
-    
+        CentralProcessingUnit();
+        void execute();
+        MachineCode* machine_code;
+
+
+   
 
 };
 
@@ -39,3 +50,7 @@ class CentralProcessingUnit
 #define si registers[6]
 #define di registers[7]
 
+#define cs segment_registers[0]
+#define ds segment_registers[1]
+#define es segment_registers[2]
+#define ss segment_registers[3]
