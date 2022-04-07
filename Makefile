@@ -1,2 +1,2 @@
 all:
-	g++ main.cpp -o xan
+	g++ main.cpp -I /home/witut/Desktop/xan  -o xan

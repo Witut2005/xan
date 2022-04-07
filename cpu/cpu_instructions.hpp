@@ -1,5 +1,8 @@
 
-#include "./cpu_instructions.cpp"
+
+#pragma once
+
+#include <cpu/cpu_instructions.cpp>
 
 typedef void (*processor_instructions)(void);
 
