@@ -7,24 +7,46 @@
 
 void Operand::operator = (Operand source)
 {
-    if(cpu.machine_code->w)
+    if(cpu->machine_code->w)
         *bit16 = *source.bit16;
     else
         *bit8 = *source.bit8;
 
 }
 
+/*
 void Operand::operator + (Operand source)
 {
-    if(cpu.machine_code->w)
+    if(cpu->machine_code->w)
+        *bit16 += *source.bit16;
+    else
+        *bit8 += *source.bit8;
+}
+*/
+
+void Operand::operator += (Operand source)
+{
+    if(cpu->machine_code->w)
         *bit16 += *source.bit16;
     else
         *bit8 += *source.bit8;
 }
 
+
+/*
+void Operand::operator -= (Operand source)
+{
+    if(cpu->machine_code->w)
+        *bit16 += *source.bit16;
+    else
+        *bit8 += *source.bit8;
+}
+*/
+
+
 void Operand::operator - (Operand source)
 {
-    if(cpu.machine_code->w)
+    if(cpu->machine_code->w)
         *bit16 -= *source.bit16;
     else
         *bit8 -= *source.bit8;
@@ -32,7 +54,7 @@ void Operand::operator - (Operand source)
 
 CentralProcessingUnit::CentralProcessingUnit()
 {
-    ram = new uint8_t [512 * 100];
+    ram = new uint8_t [31944];
     ip = 0x7c00;
 }
 
@@ -48,6 +70,8 @@ void CentralProcessingUnit::execute()
 
 void CentralProcessingUnit::operand_get(void)
 {
+    
+
     if(machine_code->mod == 3)
     {
         if(machine_code->d)
@@ -67,9 +91,8 @@ void CentralProcessingUnit::operand_get(void)
             src.bit16 = (uint16_t*)&registers[machine_code->reg];
             src.bit8 = (uint8_t*)&registers[machine_code->reg];
         }
-    }
+        return;
 
-    std::cout << "NOT IMPLMENTED" << std::endl;
-    exit(1);
+    }
 
 }

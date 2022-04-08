@@ -6,37 +6,48 @@
 #include <cpu/machine_code.hpp>
 
 
-int main(int argc, char* argv[])
+int main(void)
 {
 
-    if(argc != 2)
-    {
-        std::cout << "Usage: " << argv[0] << " file" << std::endl;
-        exit(1);
-    }
 
-    std::fstream file;
-
-    file.open(argv[1], std::ios::in | std::ios::binary);
+    cpu = new CentralProcessingUnit;
 
 
-    file.read((char*)&ram[0x7c00], 512);
 
-    printf("test: 0x%x\n", ram[0x7c00]);
 
-    cpu.ax = 10;
-    cpu.dx = 20;
 
-    cpu.machine_code->reg = 0;
-    cpu.machine_code->rm = 1;
-    cpu.machine_code->d = 1;
-    cpu.machine_code->w = 1;
+    cpu->machine_code = (MachineCode*)&ram[cpu->ip];
 
-    cpu.operand_get();
+    cpu->machine_code->reg = 0;
+    cpu->machine_code->rm = 1;
+    cpu->machine_code->mod = 3;
 
-    cpu.dest = cpu.src;
+    cpu->machine_code->d = 1;
+    cpu->machine_code->w = 1;
 
-    std::cout << "cpu.dest: " << *cpu.dest.bit16 << std::endl;
+
+    cpu->operand_get();
+
+    cpu->ax = 10;
+    cpu->cx = 20;
+
+
+
+    cpu->dest += cpu->src;
+
+    std::cout << "REGISTER STATUS:\n";
+
+    cpu->ax++;
+
+    std::cout << cpu->ax << std::endl;
+    std::cout << cpu->cx << std::endl;
+    std::cout << cpu->dx << std::endl;
+    std::cout << cpu->bx << std::endl;
+    std::cout << cpu->sp << std::endl;
+    std::cout << cpu->bp << std::endl;
+    std::cout << cpu->si << std::endl;
+    std::cout << cpu->di << std::endl;
+
 
 }
 

@@ -15,6 +15,10 @@ class Operand
 
         void operator = (Operand source);
         void operator + (Operand source);
+        void operator += (Operand source);
+        void operator -= (Operand source);
+        void operator ++ ();
+        void operator -- ();
         void operator - (Operand source);
 
 };
@@ -55,9 +59,10 @@ class CentralProcessingUnit
 
    
 
-}cpu;
+};
 
 
+CentralProcessingUnit* cpu;
 
 #define ax registers[0].bit16
 #define cx registers[1].bit16
