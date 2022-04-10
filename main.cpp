@@ -13,9 +13,6 @@ int main(void)
     cpu = new CentralProcessingUnit;
 
 
-
-
-
     cpu->machine_code = (MachineCode*)&ram[cpu->ip];
 
     cpu->machine_code->reg = 0;
@@ -31,23 +28,13 @@ int main(void)
     cpu->ax = 10;
     cpu->cx = 20;
 
-
-
     cpu->dest += cpu->src;
 
     std::cout << "REGISTER STATUS:\n";
 
     cpu->ax++;
 
-    std::cout << cpu->ax << std::endl;
-    std::cout << cpu->cx << std::endl;
-    std::cout << cpu->dx << std::endl;
-    std::cout << cpu->bx << std::endl;
-    std::cout << cpu->sp << std::endl;
-    std::cout << cpu->bp << std::endl;
-    std::cout << cpu->si << std::endl;
-    std::cout << cpu->di << std::endl;
-
+    cpu->registers_print();
 
 }
 

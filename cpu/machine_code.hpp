@@ -34,23 +34,37 @@ struct MachineCode
         uint8_t byte2;
         union
         {
-            uint8_t disp_low;
-            uint8_t low_data;
+
+            uint16_t disp16;
+
+            struct
+            {
+                uint8_t disp_low;
+                uint8_t disp_high;
+            };
+
+            uint16_t data16;
+            union
+            {
+                uint8_t data_low;
+                uint8_t data_high;
+            };
+
         };
 
-        union
-        {
-            uint8_t disp_high;
-            uint8_t high_data;
-        };
+
 
     };
 
 
-    struct 
+    union
     {
-        uint8_t data_low1;
-        uint8_t data_high1;
+        uint16_t data16_1;
+        struct 
+        {
+            uint8_t data_low1;
+            uint8_t data_high1;
+        };
     };
 
 }__attribute__((packed));

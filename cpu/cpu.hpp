@@ -54,9 +54,10 @@ class CentralProcessingUnit
         SegmentRegister segment_registers[4];
         CentralProcessingUnit();
         void execute();
+        void registers_print(void);
         MachineCode* machine_code;
         void operand_get(void);
-
+        uint16_t operand_address_get(void);
    
 
 };
@@ -73,7 +74,7 @@ CentralProcessingUnit* cpu;
 #define si registers[6].bit16
 #define di registers[7].bit16
 
-#define cs segment_registers[0]
-#define ds segment_registers[1]
-#define es segment_registers[2]
-#define ss segment_registers[3]
+#define cs segment_registers[0].bit16
+#define ds segment_registers[1].bit16
+#define es segment_registers[2].bit16
+#define ss segment_registers[3].bit16
