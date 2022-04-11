@@ -3,38 +3,55 @@
 #include <fstream>
 #include <iostream>
 #include <cpu/cpu.cpp>
+#include <screen/screen.hpp>
 #include <cpu/machine_code.hpp>
 
 
-int main(void)
+int main(int argc, char *argv[])
 {
+    std::fstream file;
+
+    if(argc != 2)
+    {
+        exit(1);
+    }
 
 
     cpu = new CentralProcessingUnit;
 
+    file.open(argv[1], std::fstream::in | std::fstream::binary);
 
-    cpu->machine_code = (MachineCode*)&ram[cpu->ip];
-
-    cpu->machine_code->reg = 0;
-    cpu->machine_code->rm = 1;
-    cpu->machine_code->mod = 3;
-
-    cpu->machine_code->d = 1;
-    cpu->machine_code->w = 1;
+    file.read((char*)&ram[0x7c00], 512);
 
 
-    cpu->operand_get();
+    for(int i = 0; i < 8; i++)
+        cpu->registers[i].bit16 = i;
 
-    cpu->ax = 10;
-    cpu->cx = 20;
+    std::string option;
+    std::string option_buffer;
 
-    cpu->dest += cpu->src;
+    while(1)
+    {
+        std::cin >> option;
 
-    std::cout << "REGISTER STATUS:\n";
 
-    cpu->ax++;
+        printf("0x%x\n", option.c_str()[0]);
+        printf("0x%x\n", option_buffer.c_str()[0]);
 
-    cpu->registers_print();
+        if(option == "p")
+        {   
+            cpu->registers_print();
+        }
+
+        else if(option == "s")
+        {
+            cpu->execute();
+        }
+
+
+    }
+
+
 
 }
 

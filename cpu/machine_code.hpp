@@ -31,7 +31,6 @@ struct MachineCode
 
     struct 
     {
-        uint8_t byte2;
         union
         {
 
@@ -50,10 +49,10 @@ struct MachineCode
                 uint8_t data_high;
             };
 
+            uint8_t byte2;
+
+
         };
-
-
-
     };
 
 

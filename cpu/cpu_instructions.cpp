@@ -2,7 +2,19 @@
 #pragma once
 
 void add(void){}
-void add_ax(void){}
+void add_ax(void)
+{
+    if(cpu->machine_code->w)
+    {
+        std::cout << "HHH" << std::endl;
+        printf("0x%x\n",cpu->machine_code->byte1);
+        printf("0x%x\n",cpu->machine_code->byte2);
+
+        cpu->ax += (uint16_t)(cpu->machine_code->byte1 << 8) | cpu->machine_code->byte2;
+    }
+
+}
+
 void push_es(void){}
 void pop_es(void){}
 void _or(void){}
@@ -33,8 +45,17 @@ void cmp(void){}
 void cmp_ax(void){}
 void ds_override(void){}
 void aas(void){}
-void inc(void){}
-void dec(void){}
+void inc(void)
+{
+    cpu->registers[cpu->machine_code->byte0 & 0x7].bit16++;
+    cpu->ip++; 
+}
+void dec(void)
+{
+    cpu->registers[cpu->machine_code->byte0 & 0x7].bit16--;
+    cpu->ip++; 
+}
+
 void push(void){}
 void pop(void){}
 void jo(void){}
@@ -66,7 +87,15 @@ void mov(void){}
 void mov_segment(void){}
 void lea(void){}
 
-void xchg_ax(void){}
+void xchg_ax(void)
+{
+
+    uint16_t tmp = cpu->ax;
+    cpu->ax = cpu->registers[cpu->machine_code->byte0 & 0x7].bit16;
+    cpu->registers[cpu->machine_code->byte0 & 0x7].bit16 = tmp;
+    cpu->ip++;
+
+}
 
 void cbw(void){}
 void cwd(void){}

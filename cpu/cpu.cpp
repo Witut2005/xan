@@ -54,35 +54,35 @@ void Operand::operator - (Operand source)
 
 CentralProcessingUnit::CentralProcessingUnit()
 {
+
     ram = new uint8_t [31944];
     ip = 0x7c00;
+    machine_code = (MachineCode*)&ram[0x7c00];
 }
 
 void CentralProcessingUnit::execute()
 {
+    operand_get();
     machine_code = (MachineCode*)&ram[ip];
-
     printf("machine_code->byte0: 0x%x\n",machine_code->byte0);
-
     processor_instruction[machine_code->byte0]();
-
 }
 
 void CentralProcessingUnit::registers_print(void)
 {
-    std::cout << "ax: " << cpu->ax << std::endl;
-    std::cout << "cx: " << cpu->cx << std::endl;
-    std::cout << "dx: " << cpu->dx << std::endl;
-    std::cout << "bx: " << cpu->bx << std::endl;
-    std::cout << "sp: " << cpu->sp << std::endl;
-    std::cout << "bp: " << cpu->bp << std::endl;
-    std::cout << "si: " << cpu->si << std::endl;
-    std::cout << "di: " << cpu->di << std::endl;
+    std::cout << "ax: 0x" << std::hex << cpu->ax << std::endl;
+    std::cout << "cx: 0x" << std::hex << cpu->cx << std::endl;
+    std::cout << "dx: 0x" << std::hex << cpu->dx << std::endl;
+    std::cout << "bx: 0x" << std::hex << cpu->bx << std::endl;
+    std::cout << "sp: 0x" << std::hex << cpu->sp << std::endl;
+    std::cout << "bp: 0x" << std::hex << cpu->bp << std::endl;
+    std::cout << "si: 0x" << std::hex << cpu->si << std::endl;
+    std::cout << "di: 0x" << std::hex << cpu->di << std::endl;
 
-    std::cout << "cs: " << cpu->cs << std::endl;
-    std::cout << "ds: " << cpu->ds << std::endl;
-    std::cout << "es: " << cpu->es << std::endl;
-    std::cout << "ss: " << cpu->ss << std::endl;
+    std::cout << "cs: 0x" << std::hex << cpu->cs << std::endl;
+    std::cout << "ds: 0x" << std::hex << cpu->ds << std::endl;
+    std::cout << "es: 0x" << std::hex << cpu->es << std::endl;
+    std::cout << "ss: 0x" << std::hex << cpu->ss << std::endl;
 }
 
 uint16_t CentralProcessingUnit::operand_address_get(void)
