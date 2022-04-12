@@ -23,16 +23,14 @@ class Operand
 
 };
 
-struct GeneralPurposeRegister
+union GeneralPurposeRegister
 {
-    struct 
+    uint16_t bit16;
+    struct
     {
-        uint16_t bit16;
-        union
-        {
-            uint8_t l,h;
-        };
+        uint8_t l,h;
     };
+ 
 };
 
 struct SegmentRegister
@@ -55,7 +53,7 @@ class CentralProcessingUnit
         CentralProcessingUnit();
         void execute();
         void registers_print(void);
-        MachineCode* machine_code;
+        const MachineCode* machine_code;
         void operand_get(void);
         uint16_t operand_address_get(void);
    
@@ -73,6 +71,15 @@ CentralProcessingUnit* cpu;
 #define bp registers[5].bit16
 #define si registers[6].bit16
 #define di registers[7].bit16
+
+#define al registers[0].l
+#define cl registers[1].l
+#define dl registers[2].l
+#define bl registers[3].l
+#define ah registers[0].h
+#define ch registers[1].h
+#define dh registers[2].h
+#define bh registers[3].h
 
 #define cs segment_registers[0].bit16
 #define ds segment_registers[1].bit16

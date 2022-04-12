@@ -6,13 +6,15 @@ void add_ax(void)
 {
     if(cpu->machine_code->w)
     {
-        std::cout << "HHH" << std::endl;
-        printf("0x%x\n",cpu->machine_code->byte1);
-        printf("0x%x\n",cpu->machine_code->byte2);
-
         cpu->ax += (uint16_t)(cpu->machine_code->byte1 << 8) | cpu->machine_code->byte2;
+        cpu->ip += 3;
     }
 
+    else 
+    {
+        cpu->al += cpu->machine_code->byte1;
+        cpu->ip += 2;
+    }
 }
 
 void push_es(void){}
@@ -20,7 +22,12 @@ void pop_es(void){}
 void _or(void){}
 void _or_ax(void){}
 void push_cs(void){}
-void bad_opcode(void){}
+void bad_opcode(void)
+{
+    std::cout << "bad_opcode" << std::endl;
+    exit(1);
+}
+
 void adc(void){}
 void adc_ax(void){}
 void push_ss(void){}
@@ -34,7 +41,21 @@ void _and_ax(void){}
 void es_override(void){}
 void daa(void){}
 void sub(void){}
-void sub_ax(void){}
+void sub_ax(void)
+{
+    if(cpu->machine_code->w)
+    {
+        cpu->ax -= (uint16_t)(cpu->machine_code->byte1 << 8) | cpu->machine_code->byte2;
+        cpu->ip += 3;
+    }
+
+    else 
+    {
+        cpu->al -= cpu->machine_code->byte1;
+        cpu->ip += 2;
+    }
+}
+
 void cs_override(void){}
 void das(void){}
 void _xor(void){}
@@ -107,7 +128,20 @@ void popf(void){}
 void sahf(void){}
 void lahf(void){}
 
-void mov_ax(void){}
+void mov_ax(void)
+{
+    if(cpu->machine_code->w)
+    {
+        cpu->ax = (uint16_t)(cpu->machine_code->byte1 << 8) | cpu->machine_code->byte2;
+        cpu->ip += 3;
+    }
+
+    else 
+    {
+        cpu->al = cpu->machine_code->byte1;
+        cpu->ip += 2;
+    }
+}
 
 void movs(void){}
 

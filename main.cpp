@@ -34,10 +34,6 @@ int main(int argc, char *argv[])
     {
         std::cin >> option;
 
-
-        printf("0x%x\n", option.c_str()[0]);
-        printf("0x%x\n", option_buffer.c_str()[0]);
-
         if(option == "p")
         {   
             cpu->registers_print();
