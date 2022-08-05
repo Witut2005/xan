@@ -1,56 +1,9 @@
 
-#pragma once
-
 #include <cpu/cpu.hpp>
 #include <cpu/cpu_instructions.hpp>
+#include <iostream>
 
 
-void Operand::operator = (Operand source)
-{
-    if(cpu->machine_code->w)
-        *bit16 = *source.bit16;
-    else
-        *bit8 = *source.bit8;
-
-}
-
-/*
-void Operand::operator + (Operand source)
-{
-    if(cpu->machine_code->w)
-        *bit16 += *source.bit16;
-    else
-        *bit8 += *source.bit8;
-}
-*/
-
-void Operand::operator += (Operand source)
-{
-    if(cpu->machine_code->w)
-        *bit16 += *source.bit16;
-    else
-        *bit8 += *source.bit8;
-}
-
-
-/*
-void Operand::operator -= (Operand source)
-{
-    if(cpu->machine_code->w)
-        *bit16 += *source.bit16;
-    else
-        *bit8 += *source.bit8;
-}
-*/
-
-
-void Operand::operator - (Operand source)
-{
-    if(cpu->machine_code->w)
-        *bit16 -= *source.bit16;
-    else
-        *bit8 -= *source.bit8;
-}
 
 CentralProcessingUnit::CentralProcessingUnit()
 {
@@ -65,7 +18,7 @@ void CentralProcessingUnit::execute()
     operand_get();
     machine_code = (MachineCode*)&ram[ip];
     printf("machine_code->byte0: 0x%x\n",machine_code->byte0);
-    processor_instruction[machine_code->byte0]();
+    instruction_set[machine_code->byte0]();
 }
 
 void CentralProcessingUnit::registers_print(void)

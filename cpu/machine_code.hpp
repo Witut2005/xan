@@ -67,4 +67,6 @@ struct MachineCode
     };
 
 }__attribute__((packed));
+
+inline MachineCode* machine_code;
  

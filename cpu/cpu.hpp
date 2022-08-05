@@ -3,25 +3,9 @@
 
 #include <stdint.h>
 #include <cpu/machine_code.hpp>
+#include <cpu/opcode_operand.hpp>
 
-uint8_t* ram;
 
-class Operand
-{
-
-    public:
-        uint16_t* bit16;
-        uint8_t* bit8;
-
-        void operator = (Operand source);
-        void operator + (Operand source);
-        void operator += (Operand source);
-        void operator -= (Operand source);
-        void operator ++ ();
-        void operator -- ();
-        void operator - (Operand source);
-
-};
 
 union GeneralPurposeRegister
 {
@@ -46,6 +30,7 @@ class CentralProcessingUnit
         
         Operand dest;
         Operand src;
+        uint8_t* ram;
 
         uint16_t ip;
         GeneralPurposeRegister registers[8];
@@ -53,7 +38,6 @@ class CentralProcessingUnit
         CentralProcessingUnit();
         void execute();
         void registers_print(void);
-        const MachineCode* machine_code;
         void operand_get(void);
         uint16_t operand_address_get(void);
    
@@ -61,7 +45,7 @@ class CentralProcessingUnit
 };
 
 
-CentralProcessingUnit* cpu;
+inline CentralProcessingUnit* cpu;
 
 #define ax registers[0].bit16
 #define cx registers[1].bit16

@@ -1,8 +1,15 @@
 
-#pragma once
-
 #include <stdint.h>
-#include <cpu/cpu.hpp>
+#include <utility>
 
+class ScreenManager 
+{
+    private:
+        uint8_t* vram;
+        uint32_t vram_start;
+        uint32_t vram_end;
 
-uint8_t* vga_text_memory = &ram[0xb8000];
+    public:
+        ScreenManager(uint8_t* ram_ptr, std::pair<uint32_t, uint32_t> memory_span);
+
+};
