@@ -47,15 +47,24 @@ int main(int argc, char *argv[])
     std::string option_buffer;
 
     initscr();
+    
+    refresh();
+
+    printw("gfag");
+    printw("%d", check_parity(0x20));
 
     refresh();
 
+    getch();
 
 
-    while(1)
-    {
-        cpu->execute();
-    }
+    while(true);
+
+
+    // while(1)
+    // {
+    //     cpu->execute();
+    // }
 
     endwin();
 

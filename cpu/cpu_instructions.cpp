@@ -3,6 +3,21 @@
 #include <cpu/cpu_instructions.hpp>
 #include <cpu/cpu.hpp>
 
+uint64_t check_parity(uint64_t arg)
+{
+    
+    auto result = 0;
+
+    for(int i = 0x0; i < sizeof(arg) * 8; i++)
+    {
+        result = result + arg % 2;
+        arg = arg / 2;
+    }
+
+    return (result & 1) == 0;
+
+}
+
 void add(void){}
 void add_ax(void)
 {
@@ -61,11 +76,34 @@ void sub_ax(void)
 void cs_override(void){}
 void das(void){}
 void _xor(void){}
-void _xor_ax(void){}
+
+void _xor_ax(void)
+{
+    if(machine_code->w)
+    {
+        cpu->ax = cpu->ax ^ static_cast<uint16_t>(machine_code->byte1 | (machine_code->byte2 << 8));
+        cpu->ip += 3;
+    }
+
+    else 
+    {
+        cpu->al = static_cast<uint8_t>(machine_code->byte1);
+        cpu->ip += 2;
+    }
+
+}
+
 void ss_override(void){}
 void aaa(void){}
 void cmp(void){}
-void cmp_ax(void){}
+void cmp_ax(void)
+{
+    if(!(cpu->ax - static_cast<uint8_t>(machine_code->byte1)))
+    {
+        cpu->flags.zf = 1;
+    }
+}
+
 void ds_override(void){}
 void aas(void){}
 void inc(void)

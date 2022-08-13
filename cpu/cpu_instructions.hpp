@@ -2,6 +2,7 @@
 
 #pragma once
 
+uint64_t check_parity(uint64_t arg);
 
 void add(void);
 void add_ax(void);

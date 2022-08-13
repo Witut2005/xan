@@ -22,6 +22,26 @@ struct SegmentRegister
     uint16_t bit16;
 };
 
+struct FlagsRegister
+{
+    uint8_t cf : 1;
+    uint8_t resv0  : 1;
+    uint8_t pf : 1;
+    uint8_t resv1 : 1;
+    uint8_t af : 1;
+    uint8_t resv2 : 1;
+    uint8_t zf : 1;
+    uint8_t sf : 1;
+    uint8_t tf : 1;
+    uint8_t _if : 1;
+    uint8_t df : 2;
+    uint8_t of : 1;
+    uint8_t iopl : 1;
+    uint8_t nt : 1;
+    uint8_t resv3 : 1;
+};
+
+
 class CentralProcessingUnit
 {
 
@@ -31,8 +51,9 @@ class CentralProcessingUnit
         Operand dest;
         Operand src;
         uint8_t* ram;
-
         uint16_t ip;
+        FlagsRegister flags;
+
         GeneralPurposeRegister registers[8];
         SegmentRegister segment_registers[4];
         CentralProcessingUnit();

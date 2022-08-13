@@ -5,8 +5,9 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Fri Aug  5 17:59:32 2022
+# Make data base, printed on Sat Aug 13 23:06:20 2022
 
 # Variables
 
@@ -40,7 +41,6 @@ CURDIR := /home/witut/Desktop/xan
 SHELL = /bin/sh
 # environment
 VTE_VERSION = 6003
- 
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
@@ -84,7 +84,7 @@ LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 # environment
 XDG_SESSION_DESKTOP = i3
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-HJ1bv1NwczD6/agent.1830
+SSH_AUTH_SOCK = /tmp/ssh-mV3ndyFzyLoU/agent.2206
 # automatic
 %F = $(notdir $%)
 # environment
@@ -96,7 +96,7 @@ PWD = /home/witut/Desktop/xan
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 1891
+SSH_AGENT_PID = 2267
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = i3
 # environment
@@ -114,7 +114,7 @@ VSCODE_CODE_CACHE_PATH = /home/witut/.config/Code/CachedData/3b889b090b5ad5793f5
 # environment
 LOGNAME = witut
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # automatic
 +F = $(notdir $+)
 # environment
@@ -152,11 +152,11 @@ LIBVIRT_DEFAULT_URI = qemu:///system
 # environment
 LC_TELEPHONE = pl_PL.UTF-8
 # environment
-I3SOCK = /run/user/1000/i3/ipc-socket.1830
+I3SOCK = /run/user/1000/i3/ipc-socket.2206
 # default
 MAKE_COMMAND := make
 # environment
-OLDPWD = /home/witut/Desktop
+OLDPWD = /home/witut
 # default
 .VARIABLES := 
 # automatic
@@ -190,11 +190,11 @@ LC_MEASUREMENT = pl_PL.UTF-8
 # environment
 LC_ALL = C
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/49492fa5_d369_442d_a607_23372c0ccd96
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/98b397cb_6f08_429a_96af_39c9616ae909
 # automatic
 ^F = $(notdir $^)
 # environment
-GNOME_TERMINAL_SERVICE = :1.24
+GNOME_TERMINAL_SERVICE = :1.70
 # default
 SUFFIXES := 
 # environment
@@ -214,7 +214,7 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 7748
+VSCODE_PID = 10250
 # variable set hash-table stats:
 # Load=102/1024=10%, Rehash=0, Collisions=17/130=13%
 
@@ -264,7 +264,7 @@ all:
 	g++ ./cpu/cpu_instructions.cpp -std=c++17 -I /home/witut/Desktop/xan -c -o ./cpu/cpu_instructions.o
 	g++ ./cpu/opcode_operand.cpp -std=c++17 -I /home/witut/Desktop/xan -c -o ./cpu/opcode_operand.o
 	g++ ./screen/screen.cpp -std=c++17 -I /home/witut/Desktop/xan -c -o ./screen/screen.o
-	g++ main.cpp -std=c++17 -I /home/witut/Desktop/xan -lncurses ./cpu/cpu.o ./cpu/cpu_instructions.o -o xan
+	g++ main.cpp -std=c++17 -I /home/witut/Desktop/xan -lncurses ./cpu/cpu.o ./cpu/cpu_instructions.o ./cpu/opcode_operand.o ./screen/screen.o -o xan
 
 # Not a target:
 .SUFFIXES:
@@ -275,7 +275,7 @@ all:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-08-05 17:59:23.572256207
+#  Last modified 2022-08-13 23:05:10.99646915
 #  File has been updated.
 #  Successfully updated.
 
@@ -299,6 +299,7 @@ Makefile:
 # strcache performance: lookups = 24 / hit rate = 29%
 # hash-table stats:
 # Load=17/8192=0%, Rehash=0, Collisions=1/24=4%
-# Finished Make data base on Fri Aug  5 17:59:32 2022
+# Finished Make data base on Sat Aug 13 23:06:20 2022
+ 
 
  

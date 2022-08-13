@@ -4,4 +4,4 @@ all:
 	g++ ./cpu/opcode_operand.cpp -std=c++17 -I /home/witut/Desktop/xan -c -o ./cpu/opcode_operand.o
 	g++ ./screen/screen.cpp -std=c++17 -I /home/witut/Desktop/xan -c -o ./screen/screen.o
 
-	g++ main.cpp -std=c++17 -I /home/witut/Desktop/xan -lncurses ./cpu/cpu.o ./cpu/cpu_instructions.o -o xan
+	g++ main.cpp -std=c++17 -I /home/witut/Desktop/xan -lncurses ./cpu/cpu.o ./cpu/cpu_instructions.o ./cpu/opcode_operand.o ./screen/screen.o -o xan
