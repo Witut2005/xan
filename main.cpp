@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
     if(argc != 2)
     {
-        exit(1);
+        // exit(1);
     }
 
 
@@ -50,21 +50,28 @@ int main(int argc, char *argv[])
     
     refresh();
 
-    printw("gfag");
-    printw("%d", check_parity(0x20));
-
-    refresh();
-
-    getch();
 
 
-    while(true);
+    while(1)
+    {
+        switch(getch())
+        {
+            case 'e':
+                cpu->execute();
+                break;
 
+            case 'p':
+                cpu->registers_print();
+                break;
+            
+            case 'f':
+                cpu->flags_print();
+                break;
+                
 
-    // while(1)
-    // {
-    //     cpu->execute();
-    // }
+        }
+
+    }
 
     endwin();
 

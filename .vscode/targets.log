@@ -5,9 +5,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Sat Aug 13 23:06:20 2022
+# Make data base, printed on Sun Aug 14 14:55:41 2022
 
 # Variables
 
@@ -84,7 +83,7 @@ LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 # environment
 XDG_SESSION_DESKTOP = i3
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-mV3ndyFzyLoU/agent.2206
+SSH_AUTH_SOCK = /tmp/ssh-QZOWAeVuw9JD/agent.2078
 # automatic
 %F = $(notdir $%)
 # environment
@@ -96,7 +95,7 @@ PWD = /home/witut/Desktop/xan
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 2267
+SSH_AGENT_PID = 2140
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = i3
 # environment
@@ -152,7 +151,7 @@ LIBVIRT_DEFAULT_URI = qemu:///system
 # environment
 LC_TELEPHONE = pl_PL.UTF-8
 # environment
-I3SOCK = /run/user/1000/i3/ipc-socket.2206
+I3SOCK = /run/user/1000/i3/ipc-socket.2078
 # default
 MAKE_COMMAND := make
 # environment
@@ -190,11 +189,11 @@ LC_MEASUREMENT = pl_PL.UTF-8
 # environment
 LC_ALL = C
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/98b397cb_6f08_429a_96af_39c9616ae909
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/a513d46e_0c5d_43ac_b688_662f509a61a9
 # automatic
 ^F = $(notdir $^)
 # environment
-GNOME_TERMINAL_SERVICE = :1.70
+GNOME_TERMINAL_SERVICE = :1.24
 # default
 SUFFIXES := 
 # environment
@@ -214,7 +213,7 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 10250
+VSCODE_PID = 2262
 # variable set hash-table stats:
 # Load=102/1024=10%, Rehash=0, Collisions=17/130=13%
 
@@ -286,6 +285,7 @@ Makefile:
 #  File has not been updated.
 
 # files hash-table stats:
+ 
 # Load=4/1024=0%, Rehash=0, Collisions=0/16=0%
 # VPATH Search Paths
 
@@ -299,7 +299,6 @@ Makefile:
 # strcache performance: lookups = 24 / hit rate = 29%
 # hash-table stats:
 # Load=17/8192=0%, Rehash=0, Collisions=1/24=4%
-# Finished Make data base on Sat Aug 13 23:06:20 2022
- 
+# Finished Make data base on Sun Aug 14 14:55:41 2022
 
  

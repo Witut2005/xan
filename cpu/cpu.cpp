@@ -2,13 +2,13 @@
 #include <cpu/cpu.hpp>
 #include <cpu/cpu_instructions.hpp>
 #include <iostream>
-
+#include <ncurses.h>
 
 
 CentralProcessingUnit::CentralProcessingUnit()
 {
 
-    ram = new uint8_t [31944];
+    ram = new uint8_t [0xFFFFF + 1];
     ip = 0x7c00;
     machine_code = (MachineCode*)&ram[0x7c00];
 }
@@ -23,6 +23,7 @@ void CentralProcessingUnit::execute()
 
 void CentralProcessingUnit::registers_print(void)
 {
+    endwin();
     std::cout << "ax: 0x" << std::hex << cpu->ax << std::endl;
     std::cout << "cx: 0x" << std::hex << cpu->cx << std::endl;
     std::cout << "dx: 0x" << std::hex << cpu->dx << std::endl;
@@ -36,6 +37,12 @@ void CentralProcessingUnit::registers_print(void)
     std::cout << "ds: 0x" << std::hex << cpu->ds << std::endl;
     std::cout << "es: 0x" << std::hex << cpu->es << std::endl;
     std::cout << "ss: 0x" << std::hex << cpu->ss << std::endl;
+}
+
+void CentralProcessingUnit::flags_print(void)
+{
+    endwin();
+    std::cout << "0x" << std::hex << *(uint16_t*)&cpu->flags << std::endl;
 }
 
 uint16_t CentralProcessingUnit::operand_address_get(void)

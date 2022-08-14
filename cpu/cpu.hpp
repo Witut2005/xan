@@ -59,6 +59,7 @@ class CentralProcessingUnit
         CentralProcessingUnit();
         void execute();
         void registers_print(void);
+        void flags_print(void);
         void operand_get(void);
         uint16_t operand_address_get(void);
    

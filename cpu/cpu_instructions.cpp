@@ -23,7 +23,7 @@ void add_ax(void)
 {
     if(machine_code->w)
     {
-        cpu->ax += (uint16_t)(machine_code->byte1 << 8) | machine_code->byte2;
+        cpu->ax += static_cast<uint16_t>((machine_code->byte1 << 8) | machine_code->byte2);
         cpu->ip += 3;
     }
 
@@ -37,7 +37,19 @@ void add_ax(void)
 void push_es(void){}
 void pop_es(void){}
 void _or(void){}
-void _or_ax(void){}
+void _or_ax(void)
+{
+    if(machine_code->w)
+        cpu->ax = cpu->ax | static_cast<uint16_t>((machine_code->byte1 << 8) | machine_code->byte2);
+
+    else 
+        cpu->ax = cpu->ax | static_cast<uint8_t>(machine_code->byte1);
+        
+
+    cpu->ip = cpu->ip + 2 + machine_code->w;
+
+}
+
 void push_cs(void){}
 void bad_opcode(void)
 {
@@ -46,7 +58,19 @@ void bad_opcode(void)
 }
 
 void adc(void){}
-void adc_ax(void){}
+void adc_ax(void)
+{
+
+    if(machine_code->w)
+        cpu->ax = cpu->ax + static_cast<uint16_t>((machine_code->byte1 << 8) | machine_code->byte2) + cpu->flags.cf;
+
+    else 
+        cpu->ax = cpu->ax + static_cast<uint8_t>(machine_code->byte1) + cpu->flags.cf;
+        
+
+    cpu->ip = cpu->ip + 2 + machine_code->w;
+}
+
 void push_ss(void){}
 void pop_ss(void){}
 void sbb(void){}
@@ -102,6 +126,13 @@ void cmp_ax(void)
     {
         cpu->flags.zf = 1;
     }
+
+    if(check_parity(cpu->ax - static_cast<uint8_t>(machine_code->byte1)))
+    {
+        cpu->flags.pf = 1;
+    }
+
+    
 }
 
 void ds_override(void){}
@@ -117,24 +148,132 @@ void dec(void)
     cpu->ip++; 
 }
 
-void push(void){}
-void pop(void){}
-void jo(void){}
-void jno(void){}
-void jc(void){}
-void jnc(void){}
-void jz(void){}
-void jnz(void){}
-void jna(void){}
-void ja(void){}
-void js(void){}
-void jns(void){}
-void jp(void){}
-void jnp(void){}
-void jl(void){}
-void jnl(void){}
-void jle(void){}
-void jnle(void){}
+void push(void)
+{
+    cpu->sp = cpu->sp - 2;
+    *(uint16_t*)&cpu->ram[cpu->ss * 0x10 + cpu->sp] = cpu->registers[machine_code->byte0 & 0x7].bit16; 
+    cpu->ip = cpu->ip + 2;
+}
+
+void pop(void)
+{
+    cpu->registers[machine_code->byte0 & 0x7].bit16 = *(uint16_t*)&cpu->ram[cpu->ss * 0x10 + cpu->sp];
+    cpu->sp = cpu->sp + 2;
+    cpu->ip = cpu->ip + 2;
+}
+
+void jo(void)
+{
+    if(cpu->flags.of)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void jno(void)
+{
+    if(!cpu->flags.of)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void jc(void)
+{
+    if(cpu->flags.cf)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void jnc(void)
+{
+    if(!cpu->flags.of)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void jz(void)
+{
+    if(cpu->flags.zf)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void jnz(void)
+{
+    if(!cpu->flags.zf)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void jna(void)
+{
+    if(cpu->flags.sf or cpu->flags.zf)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void ja(void)
+{
+    if(!cpu->flags.sf and !cpu->flags.zf)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void js(void)
+{
+    if(cpu->flags.sf)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void jns(void)
+{
+    if(!cpu->flags.sf)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void jp(void)
+{
+    if(cpu->flags.pf)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void jnp(void)
+{
+    if(!cpu->flags.pf)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void jl(void)
+{
+    if(cpu->flags.sf)
+        cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    cpu->ip = cpu->ip + 2;
+}
+
+void jnl(void)
+{
+    // if(!cpu->flags.sf)
+    //     cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    // cpu->ip = cpu->ip + 2;
+}
+
+void jle(void)
+{
+    // if(cpu->flags.of)
+    //     cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    // cpu->ip = cpu->ip + 2;
+}
+
+void jnle(void)
+{
+    // if(cpu->flags.of)
+    //     cpu->ip = static_cast<int16_t>(cpu->ip + machine_code->byte1);
+    // cpu->ip = cpu->ip + 2;
+}
+
 void op80x(void){}
 void op81x(void){}
 void op82x(void){}
@@ -162,9 +301,21 @@ void cbw(void){}
 void cwd(void){}
 void call_far(void){}
 void wait(void){}
-void pushf(void){}
+void pushf(void)
+{
+    cpu->sp = cpu->sp - 2;
+    cpu->ram[cpu->ss * 0x10 + cpu->sp] = *(uint16_t*)&cpu->flags;
+    cpu->ip++;
+}
 
-void popf(void){}
+void popf(void)
+{
+    uint16_t* tmp = (uint16_t*)&cpu->flags;
+    *tmp = cpu->ram[cpu->ss * 0x10 + cpu->sp];
+    
+    cpu->sp = cpu->sp + 2;
+    cpu->ip++;
+}
 void sahf(void){}
 void lahf(void){}
 
@@ -232,11 +383,31 @@ void cmc(void){}
 void opF6x(void){}
 void opF7x(void){}
 
-void clc(void){}
-void stc(void){}
-void cli(void){}
-void sti(void){}
-void cld(void){}
+void clc(void)
+{
+    cpu->flags.cf = false;
+}
+
+void stc(void)
+{
+    cpu->flags.cf = true;
+}
+
+void cli(void)
+{
+    cpu->flags._if = false;
+}
+
+void sti(void)
+{
+    cpu->flags._if = true;
+}
+
+void cld(void)
+{
+    cpu->flags.df = false;
+}
+
 void _std(void){}
 void opFEx(void){}
 void opFFx(void){}
