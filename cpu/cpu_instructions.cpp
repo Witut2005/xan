@@ -283,7 +283,22 @@ void test(void){}
 
 void xchg(void){}
 
-void mov(void){}
+void mov(void)
+{
+
+    std::cout << "MOV" << std::endl;
+
+    cpu->operand_get();
+
+    if(machine_code->w)
+        *cpu->dest.bit16 = *cpu->src.bit16;
+    else 
+        *cpu->dest.bit8 = *cpu->src.bit8;
+
+    cpu->ip = cpu->ip + 2 + machine_code->mod % 3;
+
+}
+
 void mov_segment(void){}
 void lea(void){}
 
@@ -323,7 +338,7 @@ void mov_ax(void)
 {
     if(machine_code->w)
     {
-        cpu->ax = (uint16_t)(machine_code->byte1 << 8) | machine_code->byte2;
+        cpu->ax = (uint16_t)(machine_code->byte1 | (machine_code->byte2 << 8));
         cpu->ip += 3;
     }
 
@@ -345,10 +360,41 @@ void lods(void){}
 void scas(void){}
 
 
-void mov_immediate(void){}
+void mov_immediate(void)
+{
+    auto reg = machine_code->byte0 & 0x8;
+    auto w_tmp = (machine_code->byte0 & 0x8) >> 3;
 
-void retn(void){}
-void ret(void){}
+    if(w_tmp)
+        cpu->registers[machine_code->byte0 & 0x7].bit16 = static_cast<uint16_t>(machine_code->byte1 | (machine_code->byte2 << 8));
+    else
+    {
+        if(reg < 4)
+            cpu->registers[reg].l = machine_code->byte1; 
+        else
+        {
+            reg = reg - 4;
+            cpu->registers[reg].h = machine_code->byte1;
+        }
+    }
+
+    cpu->ip = cpu->ip + 2 + w_tmp;
+    
+}
+
+void retn(void)
+{
+
+
+
+}
+
+void ret(void)
+{
+    cpu->ip = cpu->ram[cpu->ss * 0x10 + cpu->sp];
+    cpu->sp = cpu->sp - 2;
+}
+
 void les(void){}
 void lds(void){}                 //0xC5
 void mov_memory(void){}
@@ -658,7 +704,7 @@ processor_instructions instruction_set[256]
     bad_opcode,
     bad_opcode,      //0xC1
 
-    retn,                       //0xC2  intrasegment
+    retn,                       //0xC2  withing segment 
     ret,                        //0xC3  intrasegment
     les,                        //0xC4
     lds,                        //0xC5

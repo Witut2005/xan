@@ -23,7 +23,7 @@ void CentralProcessingUnit::execute()
 
 void CentralProcessingUnit::registers_print(void)
 {
-    endwin();
+    // endwin();
     std::cout << "ax: 0x" << std::hex << cpu->ax << std::endl;
     std::cout << "cx: 0x" << std::hex << cpu->cx << std::endl;
     std::cout << "dx: 0x" << std::hex << cpu->dx << std::endl;
@@ -41,7 +41,7 @@ void CentralProcessingUnit::registers_print(void)
 
 void CentralProcessingUnit::flags_print(void)
 {
-    endwin();
+    // endwin();
     std::cout << "0x" << std::hex << *(uint16_t*)&cpu->flags << std::endl;
 }
 
@@ -103,17 +103,36 @@ uint16_t CentralProcessingUnit::operand_address_get(void)
 void CentralProcessingUnit::operand_get(void)
 {
     
+    auto reg8_rm = machine_code->rm;
+    auto reg8_reg = machine_code->reg;
+
+    if(reg8_rm >= 4)
+        reg8_rm = reg8_rm - 4;
+
+    if(reg8_reg >= 4)
+        reg8_reg = reg8_reg - 4;
+
 
     if(machine_code->mod == 3)
     {
         if(machine_code->d)
         {
-            dest.bit16 = (uint16_t*)&registers[machine_code->reg];
-            dest.bit8 = (uint8_t*)&registers[machine_code->reg];
+            this->dest.bit16 = (uint16_t*)&registers[machine_code->reg];
+            this->dest.bit8 = (uint8_t*)&registers[reg8_reg];
 
-            src.bit16 = (uint16_t*)&registers[machine_code->rm];
-            src.bit8 = (uint8_t*)&registers[machine_code->rm];
+            this->src.bit16 = (uint16_t*)&registers[machine_code->rm];
+            this->src.bit8 = (uint8_t*)&registers[reg8_rm];
         }
+
+        else 
+        {
+            this->src.bit16 = (uint16_t*)&registers[machine_code->reg];
+            this->src.bit8 = (uint8_t*)&registers[reg8_reg];
+
+            this->dest.bit16 = (uint16_t*)&registers[machine_code->rm];
+            this->dest.bit8 = (uint8_t*)&registers[reg8_rm];
+        }
+
     }
 
     else

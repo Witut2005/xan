@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
     file.open(argv[1], std::fstream::in | std::fstream::binary);
 
-    // file.read((char*)&ram[0x7c00], 512);
+    file.read((char*)&cpu->ram[0x7c00], 512);
 
 
     for(int i = 0; i < 8; i++)
@@ -46,17 +46,19 @@ int main(int argc, char *argv[])
     std::string option;
     std::string option_buffer;
 
-    initscr();
+    // initscr();
     
-    refresh();
+    // refresh();
 
+    std::cout << "running\n";
 
+    cpu->cx = 0xFFFF;
 
     while(1)
     {
-        switch(getch())
+        switch(getchar())
         {
-            case 'e':
+            case 's':
                 cpu->execute();
                 break;
 
