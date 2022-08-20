@@ -18,7 +18,20 @@ uint64_t check_parity(uint64_t arg)
 
 }
 
-void add(void){}
+void add(void)
+{
+
+    cpu->operand_get();
+
+    if(machine_code->w)
+        *cpu->dest.bit8 = *cpu->dest.bit8 + *cpu->src.bit16;
+    else
+        *cpu->dest.bit8 = *cpu->dest.bit8 + *cpu->src.bit8;
+
+    cpu->ip = cpu->ip + 2 + (machine_code->rm % 3);
+
+}
+
 void add_ax(void)
 {
     if(machine_code->w)
@@ -286,8 +299,11 @@ void xchg(void){}
 void mov(void)
 {
 
+
     std::cout << "MOV" << std::endl;
 
+    // cpu->dest.bit8 = &cpu->registers[0].h;
+    // cpu->src.bit8 = &cpu->ram[0x7c00]; 
     cpu->operand_get();
 
     if(machine_code->w)

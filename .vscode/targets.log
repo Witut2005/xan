@@ -5,9 +5,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Mon Aug 15 12:05:25 2022
+# Make data base, printed on Sat Aug 20 19:11:06 2022
 
 # Variables
 
@@ -84,7 +83,7 @@ LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:
 # environment
 XDG_SESSION_DESKTOP = i3
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-HSYrdtmKylhb/agent.1935
+SSH_AUTH_SOCK = /tmp/ssh-t1eSFAZKJKUi/agent.1921
 # automatic
 %F = $(notdir $%)
 # environment
@@ -96,7 +95,7 @@ PWD = /home/witut/Desktop/xan
 # environment
 XDG_SEAT = seat0
 # environment
-SSH_AGENT_PID = 1996
+SSH_AGENT_PID = 1982
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = i3
 # environment
@@ -152,7 +151,7 @@ LIBVIRT_DEFAULT_URI = qemu:///system
 # environment
 LC_TELEPHONE = pl_PL.UTF-8
 # environment
-I3SOCK = /run/user/1000/i3/ipc-socket.1935
+I3SOCK = /run/user/1000/i3/ipc-socket.1921
 # default
 MAKE_COMMAND := make
 # environment
@@ -190,11 +189,11 @@ LC_MEASUREMENT = pl_PL.UTF-8
 # environment
 LC_ALL = C
 # environment
-GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/9053624c_abd8_4d57_a683_8e3b8bc09ed2
+GNOME_TERMINAL_SCREEN = /org/gnome/Terminal/screen/0fa2e86e_33be_4376_91b9_0d024dad85f8
 # automatic
 ^F = $(notdir $^)
 # environment
-GNOME_TERMINAL_SERVICE = :1.24
+GNOME_TERMINAL_SERVICE = :1.283
 # default
 SUFFIXES := 
 # environment
@@ -214,7 +213,7 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 2147
+VSCODE_PID = 4621
 # variable set hash-table stats:
 # Load=102/1024=10%, Rehash=0, Collisions=17/130=13%
 
@@ -224,10 +223,9 @@ VSCODE_PID = 2147
 
 # Directories
 
-# . (device 2066, inode 10461953): 12 files, no impossibilities.
+# . (device 2066, inode 10461953): 13 files, no impossibilities.
 
- 
-# 12 files, no impossibilities in 1 directories.
+# 13 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -290,6 +288,7 @@ run:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+ 
 #  recipe to execute (from 'Makefile', line 10):
 	./xan $(FILE)
 
@@ -301,12 +300,12 @@ run:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 18 / storage = 133 B / avg = 7 B
-# current buf: size = 8162 B / used = 133 B / count = 18 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 19 / storage = 138 B / avg = 7 B
+# current buf: size = 8162 B / used = 138 B / count = 19 / avg = 7 B
 
-# strcache performance: lookups = 26 / hit rate = 30%
+# strcache performance: lookups = 27 / hit rate = 29%
 # hash-table stats:
-# Load=18/8192=0%, Rehash=0, Collisions=1/26=4%
-# Finished Make data base on Mon Aug 15 12:05:25 2022
+# Load=19/8192=0%, Rehash=0, Collisions=1/27=4%
+# Finished Make data base on Sat Aug 20 19:11:06 2022
 
  

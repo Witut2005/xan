@@ -3,6 +3,7 @@
 #include <cpu/cpu_instructions.hpp>
 #include <iostream>
 #include <ncurses.h>
+#include <cassert>
 
 
 CentralProcessingUnit::CentralProcessingUnit()
@@ -45,6 +46,15 @@ void CentralProcessingUnit::flags_print(void)
     std::cout << "0x" << std::hex << *(uint16_t*)&cpu->flags << std::endl;
 }
 
+void CentralProcessingUnit::ram_print(void)
+{
+    for(int i = 0; i < 0x10; i++)
+    {
+        printf("%.2x ", this->ram[this->ip + i]);
+    }
+    printf("\n");
+}
+
 uint16_t CentralProcessingUnit::operand_address_get(void)
 {
     switch (machine_code->mod)
@@ -59,7 +69,7 @@ uint16_t CentralProcessingUnit::operand_address_get(void)
                 case 3: return cpu->bp + cpu->di;
                 case 4: return cpu->si;
                 case 5: return cpu->di;
-                //case 6:
+                case 6: return (uint16_t)(machine_code->byte2 | ((uint16_t)machine_code->byte3 << 8));
                 case 7: return cpu->bx;
             }
         }
@@ -106,36 +116,102 @@ void CentralProcessingUnit::operand_get(void)
     auto reg8_rm = machine_code->rm;
     auto reg8_reg = machine_code->reg;
 
+    bool reg8_rm_high = false;
+    bool reg8_reg_high = false;
+
     if(reg8_rm >= 4)
+    {
         reg8_rm = reg8_rm - 4;
+        reg8_rm_high = true;
+    }
 
     if(reg8_reg >= 4)
+    {
         reg8_reg = reg8_reg - 4;
+        reg8_reg_high = true;
+    }
 
 
     if(machine_code->mod == 3)
     {
         if(machine_code->d)
         {
+
             this->dest.bit16 = (uint16_t*)&registers[machine_code->reg];
-            this->dest.bit8 = (uint8_t*)&registers[reg8_reg];
+
+            if(reg8_reg_high)
+                this->dest.bit8 = (uint8_t*)&registers[reg8_reg].h;
+            else 
+                this->dest.bit8 = (uint8_t*)&registers[reg8_reg].l;
+
+            ////////////////////////
 
             this->src.bit16 = (uint16_t*)&registers[machine_code->rm];
-            this->src.bit8 = (uint8_t*)&registers[reg8_rm];
+
+            if(reg8_rm_high)
+                this->dest.bit8 = (uint8_t*)&registers[reg8_rm].h;
+            else 
+                this->dest.bit8 = (uint8_t*)&registers[reg8_rm].l;
+
         }
 
         else 
         {
             this->src.bit16 = (uint16_t*)&registers[machine_code->reg];
-            this->src.bit8 = (uint8_t*)&registers[reg8_reg];
+
+            if(reg8_reg_high)
+                this->dest.bit8 = (uint8_t*)&registers[reg8_reg].h;
+            else 
+                this->dest.bit8 = (uint8_t*)&registers[reg8_reg].l;
+
+            ///////////////////////////
 
             this->dest.bit16 = (uint16_t*)&registers[machine_code->rm];
-            this->dest.bit8 = (uint8_t*)&registers[reg8_rm];
+
+            if(reg8_rm_high)
+                this->dest.bit8 = (uint8_t*)&registers[reg8_rm].h;
+            else 
+                this->dest.bit8 = (uint8_t*)&registers[reg8_rm].l;
         }
 
     }
 
     else
-        operand_address_get();
-        
+    {
+    
+        uint32_t address = operand_address_get();
+
+        assert(reg8_reg > 0 && reg8_reg < 4);
+        assert(reg8_rm > 0 && reg8_rm < 4);
+
+        if(machine_code->d)
+        {
+            this->dest.bit16 = (uint16_t*)&registers[machine_code->reg];
+            
+            if(reg8_reg_high)
+                this->dest.bit8 = (uint8_t*)&(registers[reg8_reg].h);
+            else
+                this->dest.bit8 = (uint8_t*)&(registers[reg8_reg].l);
+
+            this->src.bit16 = (uint16_t*)&ram[address];
+            this->src.bit8  = (uint8_t*)&ram[address];
+
+        }
+
+        else
+        {
+            this->src.bit16 = (uint16_t*)&registers[machine_code->reg];
+            
+            if(reg8_rm_high)
+                this->src.bit8 = (uint8_t*)&(registers[reg8_rm].h);
+            else 
+                this->src.bit8 = (uint8_t*)&(registers[reg8_rm].l);
+
+            this->dest.bit16 = (uint16_t*)&ram[address];
+            this->dest.bit8  = (uint8_t*)&ram[address];
+        }
+   
+
+    }
+
 }

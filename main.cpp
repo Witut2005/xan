@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 
     std::cout << "running\n";
 
-    cpu->cx = 0xFFFF;
+    cpu->cx = 0x1234;
 
     while(1)
     {
@@ -68,6 +68,10 @@ int main(int argc, char *argv[])
             
             case 'f':
                 cpu->flags_print();
+                break;
+            
+            case 'r':
+                cpu->ram_print();
                 break;
                 
 
