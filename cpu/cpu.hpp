@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <cpu/machine_code.hpp>
 #include <cpu/opcode_operand.hpp>
+#include <string>
 
 
 
@@ -53,6 +54,7 @@ class CentralProcessingUnit
         uint8_t* ram;
         uint16_t ip;
         FlagsRegister flags;
+        uint8_t direct_address;
 
         GeneralPurposeRegister registers[8];
         SegmentRegister segment_registers[4];
@@ -61,7 +63,7 @@ class CentralProcessingUnit
         void registers_print(void);
         void flags_print(void);
         void operand_get(void);
-        void ram_print(void);
+        void ram_print(std::string addr_str);
         uint16_t operand_address_get(void);
    
 

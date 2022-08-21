@@ -299,19 +299,18 @@ void xchg(void){}
 void mov(void)
 {
 
-
-    std::cout << "MOV" << std::endl;
-
-    // cpu->dest.bit8 = &cpu->registers[0].h;
-    // cpu->src.bit8 = &cpu->ram[0x7c00]; 
     cpu->operand_get();
+
+    printf("source: 0x%x\n", cpu->src.bit8);
+    printf("dest: 0x%x\n", *cpu->dest.bit8);
+    printf("dx: 0x%x\n", &cpu->dl);
 
     if(machine_code->w)
         *cpu->dest.bit16 = *cpu->src.bit16;
     else 
         *cpu->dest.bit8 = *cpu->src.bit8;
 
-    cpu->ip = cpu->ip + 2 + machine_code->mod % 3;
+    cpu->ip = cpu->ip + 2 + cpu->direct_address + machine_code->mod % 3;
 
 }
 

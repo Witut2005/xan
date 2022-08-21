@@ -4,6 +4,7 @@
 #include <iostream>
 #include <ncurses.h>
 #include <cassert>
+#include <sstream>
 
 
 CentralProcessingUnit::CentralProcessingUnit()
@@ -16,9 +17,13 @@ CentralProcessingUnit::CentralProcessingUnit()
 
 void CentralProcessingUnit::execute()
 {
-    operand_get();
+    this->direct_address = 0x0;
+
     machine_code = (MachineCode*)&ram[ip];
     printf("machine_code->byte0: 0x%x\n",machine_code->byte0);
+    printf("machine_code->rm: 0x%x\n",machine_code->rm);
+    printf("machine_code->reg: 0x%x\n",machine_code->reg);
+    printf("machine_code->byte1: 0x%x\n", machine_code->byte1);
     instruction_set[machine_code->byte0]();
 }
 
@@ -46,11 +51,16 @@ void CentralProcessingUnit::flags_print(void)
     std::cout << "0x" << std::hex << *(uint16_t*)&cpu->flags << std::endl;
 }
 
-void CentralProcessingUnit::ram_print(void)
+void CentralProcessingUnit::ram_print(std::string addr_str)
 {
+    std::stringstream tmp;
+    tmp << std::hex << addr_str;
+    int x;
+    tmp >> x;
+ 
     for(int i = 0; i < 0x10; i++)
     {
-        printf("%.2x ", this->ram[this->ip + i]);
+        printf("%.2x ", this->ram[x + i]);
     }
     printf("\n");
 }
@@ -69,7 +79,7 @@ uint16_t CentralProcessingUnit::operand_address_get(void)
                 case 3: return cpu->bp + cpu->di;
                 case 4: return cpu->si;
                 case 5: return cpu->di;
-                case 6: return (uint16_t)(machine_code->byte2 | ((uint16_t)machine_code->byte3 << 8));
+                case 6: direct_address = 2; return (uint16_t)(machine_code->byte2 | ((uint16_t)machine_code->byte3 << 8));
                 case 7: return cpu->bx;
             }
         }
@@ -121,6 +131,7 @@ void CentralProcessingUnit::operand_get(void)
 
     if(reg8_rm >= 4)
     {
+        printf("reg8_rm: 0x%x\n", reg8_rm);
         reg8_rm = reg8_rm - 4;
         reg8_rm_high = true;
     }
@@ -180,9 +191,10 @@ void CentralProcessingUnit::operand_get(void)
     {
     
         uint32_t address = operand_address_get();
+        printf("omg my address: 0x%x\n", address);
 
-        assert(reg8_reg > 0 && reg8_reg < 4);
-        assert(reg8_rm > 0 && reg8_rm < 4);
+        // assert(reg8_reg > 0 && reg8_reg < 4);
+        // assert(reg8_rm > 0 && reg8_rm < 4);
 
         if(machine_code->d)
         {
@@ -202,10 +214,17 @@ void CentralProcessingUnit::operand_get(void)
         {
             this->src.bit16 = (uint16_t*)&registers[machine_code->reg];
             
-            if(reg8_rm_high)
-                this->src.bit8 = (uint8_t*)&(registers[reg8_rm].h);
+            if(reg8_reg_high)
+            {
+                this->src.bit8 = (uint8_t*)&registers[reg8_reg].h;
+                printf("HIGH\n");
+            }
+
             else 
-                this->src.bit8 = (uint8_t*)&(registers[reg8_rm].l);
+            {
+                this->src.bit8 = (uint8_t*)&registers[reg8_reg].l;
+                printf("LOW\n");
+            }
 
             this->dest.bit16 = (uint16_t*)&ram[address];
             this->dest.bit8  = (uint8_t*)&ram[address];

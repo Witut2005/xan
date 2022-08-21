@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <fstream>
 #include <iostream>
+#include <string>
     
     // start_color();
     // init_pair(2, COLOR_GREEN, COLOR_RED);
@@ -71,7 +72,9 @@ int main(int argc, char *argv[])
                 break;
             
             case 'r':
-                cpu->ram_print();
+                std::string tmp;
+                std::getline(std::cin, tmp);
+                cpu->ram_print(tmp);
                 break;
                 
 

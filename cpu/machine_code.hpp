@@ -26,7 +26,7 @@ struct MachineCode
             uint8_t rm : 3;
             uint8_t reg : 3;
             uint8_t mod : 2;
-        };
+        }__attribute__((packed));
     };
 
     union
@@ -41,7 +41,7 @@ struct MachineCode
         };
 
         uint16_t data16;
-        union
+        struct 
         {
             uint8_t data_low;
             uint8_t data_high;
