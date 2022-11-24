@@ -141,48 +141,58 @@ void CentralProcessingUnit::operand_get(void)
         reg8_reg = reg8_reg - 4;
         reg8_reg_high = true;
     }
-
+    
+    printf("fromini1\n");
+    printf("D BIT 0x%x\n", machine_code->d); 
 
     if(machine_code->mod == 3)
     {
+        printf("fromini2\n");
+
+        
         if(machine_code->d)
         {
 
             this->dest.bit16 = (uint16_t*)&registers[machine_code->reg];
-
+            
+            
             if(reg8_reg_high)
-                this->dest.bit8 = (uint8_t*)&registers[reg8_reg].h;
+                this->dest.bit8 = (uint8_t*)&(registers[reg8_reg].h);
             else 
-                this->dest.bit8 = (uint8_t*)&registers[reg8_reg].l;
+                this->dest.bit8 = (uint8_t*)&(registers[reg8_reg].l);
 
+            
             ////////////////////////
 
             this->src.bit16 = (uint16_t*)&registers[machine_code->rm];
 
             if(reg8_rm_high)
-                this->dest.bit8 = (uint8_t*)&registers[reg8_rm].h;
+                this->src.bit8 = (uint8_t*)&(registers[reg8_rm].h);
             else 
-                this->dest.bit8 = (uint8_t*)&registers[reg8_rm].l;
+                this->src.bit8 = (uint8_t*)&(registers[reg8_rm].l);
 
+            printf("fromini4\n");
+            
         }
 
         else 
         {
-            this->src.bit16 = (uint16_t*)&registers[machine_code->reg];
+            this->src.bit16 = (uint16_t*)&(registers[machine_code->reg]);
 
             if(reg8_reg_high)
-                this->dest.bit8 = (uint8_t*)&registers[reg8_reg].h;
+                this->src.bit8 = (uint8_t*)&(registers[reg8_reg].h);
             else 
-                this->dest.bit8 = (uint8_t*)&registers[reg8_reg].l;
+                this->src.bit8 = (uint8_t*)&(registers[reg8_reg].l);
 
             ///////////////////////////
 
-            this->dest.bit16 = (uint16_t*)&registers[machine_code->rm];
+            this->dest.bit16 = (uint16_t*)&(registers[machine_code->rm]);
 
             if(reg8_rm_high)
-                this->dest.bit8 = (uint8_t*)&registers[reg8_rm].h;
+                this->dest.bit8 = (uint8_t*)&(registers[reg8_rm].h);
             else 
-                this->dest.bit8 = (uint8_t*)&registers[reg8_rm].l;
+                this->dest.bit8 = (uint8_t*)&(registers[reg8_rm].l);
+
         }
 
     }
@@ -232,5 +242,7 @@ void CentralProcessingUnit::operand_get(void)
    
 
     }
+    
+    printf("end of getting operands\n");
 
 }

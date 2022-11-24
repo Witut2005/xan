@@ -290,7 +290,21 @@ void jnle(void)
 void op80x(void){}
 void op81x(void){}
 void op82x(void){}
-void op83x(void){}
+void op83x(void)
+{
+    cpu->operand_get();
+    
+    if(!machine_code->reg)
+    {
+    
+        if(machine_code->w)
+            *cpu->dest.bit16 += machine_code->byte2 + (machine_code->byte3 << 8);
+        else
+            *cpu->dest.bit8 += machine_code->byte2;
+        
+    }
+    
+}
 
 void test(void){}
 
@@ -298,20 +312,29 @@ void xchg(void){}
 
 void mov(void)
 {
-
     cpu->operand_get();
+    
+    /*
+    printf("im am alive\n");
 
-    printf("source: 0x%x\n", cpu->src.bit8);
-    printf("dest: 0x%x\n", *cpu->dest.bit8);
+    printf("aha\n");
+    
     printf("dx: 0x%x\n", &cpu->dl);
-
+    printf("im am alive\n");
+    */
+    
+    printf("source: 0x%x\n", *(cpu->src.bit8));
+    printf("dest: 0x%x\n", *(cpu->dest.bit8));
+    
     if(machine_code->w)
         *cpu->dest.bit16 = *cpu->src.bit16;
     else 
         *cpu->dest.bit8 = *cpu->src.bit8;
 
+    
+    
     cpu->ip = cpu->ip + 2 + cpu->direct_address + machine_code->mod % 3;
-
+    
 }
 
 void mov_segment(void){}
